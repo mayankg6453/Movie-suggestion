@@ -130,3 +130,12 @@ useEffect(()=>{
 }
 
 export default App
+
+
+// echo "# movie-recomendation" >> README.md
+// git init
+// git add README.md
+// git commit -m "first commit"
+// git branch -M main
+// git remote add origin https://github.com/mayankg6453/movie-recomendation.git
+// git push -u origin main
