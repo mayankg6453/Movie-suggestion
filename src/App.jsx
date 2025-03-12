@@ -49,7 +49,7 @@ const fetchMovies = async( query ='') =>{
       return;
 
     }
-    console.log(data.results);
+    //console.log(data.results);
     setMovieList(data.results || []);
     if(query && data.results.length >0){
       await updateSearchCount(query,data.results[0]);
