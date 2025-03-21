@@ -25,6 +25,8 @@ const [movieList,setMovieList] = useState([]);
 const [isLoading, setIsLoading] = useState(false);
 
 const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+const [totalPages,setTotalPages] = useState(1000);
+const [currentPage,setCurrentPage] = useState(1);
 
 useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm])
 
@@ -35,9 +37,10 @@ const fetchMovies = async( query ='') =>{
   setIsLoading(true);
   setErrorMessage('');
   try{
+    console.log("from fetching:",currentPage)
     const endpoint = query?
-    `${API_BASE_URL}/search/movie?query=${encodeURI(query)}`
-    :`${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+    `${API_BASE_URL}/search/movie?query=${encodeURI(query)}&page=${currentPage}`
+    :`${API_BASE_URL}/discover/movie?page=${currentPage}&sort_by=popularity.desc`;
     const response = await fetch(endpoint, API_OPTIONS);
     if(!response.ok){
       throw new Error ("Failed to fetch movies");
@@ -49,7 +52,10 @@ const fetchMovies = async( query ='') =>{
       return;
 
     }
-    //console.log(data.results);
+    // console.log(endpoint);
+    // console.log(data);
+    setTotalPages(data.total_pages);
+    // console.log(totalPages);
     setMovieList(data.results || []);
     if(query && data.results.length >0){
       await updateSearchCount(query,data.results[0]);
@@ -68,6 +74,8 @@ const fetchMovies = async( query ='') =>{
 
  const loadTrendingMovies = async () => {
   try {
+
+
     const movies = await getTrendingMovies();
 
     setTrendingMovies(movies);
@@ -75,13 +83,40 @@ const fetchMovies = async( query ='') =>{
     console.error(`Error fetching trending movies: ${error}`);
   }
 }
+
+const handlePageIndexChange =(event) =>{
+  let newValue = event.target.value;
+  if (newValue === "" || isNaN(newValue)) {
+    newValue = 1;
+  } else {
+    newValue = parseInt(newValue, 10);
+  }
+
+       // Clamp the value to the allowed range
+       newValue = Math.max(1, Math.min(newValue, totalPages));
+
+       setCurrentPage(newValue);
+} 
 useEffect(()=>{
+  setCurrentPage(1); 
   fetchMovies(debouncedSearchTerm);
 },[debouncedSearchTerm]);
 
 useEffect(()=>{
   loadTrendingMovies();
 },[])
+useEffect(()=>{
+  fetchMovies(debouncedSearchTerm);
+},[currentPage])
+const moveRight = () =>{
+  setCurrentPage((prevPage) => prevPage + 1);
+  // console.log("current page",currentPage);
+  
+}
+const moveLeft = () =>{
+  setCurrentPage((prevPage) => prevPage - 1);
+  // console.log("current page",currentPage);
+}
 
   return (
     <main>
@@ -108,9 +143,30 @@ useEffect(()=>{
           </section>
         )}
         <section className="all-movies"> 
-
+          <div className=" flex flex-row justify-between">
 
           <h2 className="mt-[40px]">Popular Movies</h2>
+          <div className=" h-12 flex flex-row justify-between mt-10">
+
+            <button onClick={moveLeft} disabled={currentPage === 1}>
+              <img className=" w-12" src="./left.png" alt="left-arrow" />
+            </button>
+
+            <div className="flex flex-row items-center ">
+
+              <input className="bg-light-100/5    text-gray-200 text-2xl rounded-lg  block w-12 p-2.5 appearance-none text-right"  type="number" value={currentPage} min="1" max={totalPages} onChange={handlePageIndexChange} />
+              <p className="text-white items-center h-auto text-2xl text-center">/</p>
+              
+              <p className="text-gray-200 items-center h-auto text-2xl text-center text">{totalPages}</p>
+
+            </div>
+
+            <button onClick={moveRight} disabled={currentPage === totalPages}>
+              <img className="w-12" src="./right.png" alt="right-arrow"/>
+            </button>
+
+          </div>
+          </div>
            {isLoading ? (
             <Spinner />): errorMessage ?(
               <p className="text-red-500">{errorMessage}</p>
@@ -123,7 +179,6 @@ useEffect(()=>{
             )
            
           }
-          {/* </div> */}
         </section>
         
       </div>

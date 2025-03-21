@@ -6,7 +6,7 @@ const MovieCard = ({movie : {title, vote_average, poster_path, release_date,
 
     
   return (
-    <div className='movie-card'>
+    <div className='movie-card shadow-lg transition-transform duration-300 ease-in-out hover:scale-95 hover:shadow-xl '>
         <img  src={poster_path? `https://image.tmdb.org/t/p/w500/${poster_path}` : '/no-movie.png'} alt="title" />
         <div>
             <h3 className='mt-4'>{title}</h3>
