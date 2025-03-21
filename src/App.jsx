@@ -37,7 +37,7 @@ const fetchMovies = async( query ='') =>{
   setIsLoading(true);
   setErrorMessage('');
   try{
-    console.log("from fetching:",currentPage)
+    // console.log("from fetching:",currentPage)
     const endpoint = query?
     `${API_BASE_URL}/search/movie?query=${encodeURI(query)}&page=${currentPage}`
     :`${API_BASE_URL}/discover/movie?page=${currentPage}&sort_by=popularity.desc`;
