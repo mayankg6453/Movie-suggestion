@@ -73,10 +73,6 @@ This will start the app at `http://localhost:3000`. Open your browser and naviga
 
 If you would like to contribute to the project, feel free to fork the repository, create a branch, and submit a pull request. Ensure your changes are well-tested and adhere to the existing code style.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ---
 
 If you encounter any issues or have suggestions, feel free to open an issue on the GitHub repository.
