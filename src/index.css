@@ -99,13 +99,7 @@
     }
   }
 
-  .pageIndex {
-    @apply w-full bg-light-100/5 px-4 py-3 mx-2.5 rounded-lg mt-10 max-w-3xl text-gray-200;
-/* bg-white border-2 border-gray-400  text-gray-900 text-2xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-12 p-2.5 appearance-none */
-& input {
-  @apply w-20 bg-transparent py-2 sm:pr-10 pl-10 text-base text-gray-200 placeholder-light-200 outline-hidden;
-}
-  }
+  
 
   .all-movies {
     @apply space-y-9;
