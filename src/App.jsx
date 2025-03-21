@@ -108,6 +108,8 @@ useEffect(()=>{
           </section>
         )}
         <section className="all-movies"> 
+
+
           <h2 className="mt-[40px]">Popular Movies</h2>
            {isLoading ? (
             <Spinner />): errorMessage ?(
@@ -121,6 +123,7 @@ useEffect(()=>{
             )
            
           }
+          {/* </div> */}
         </section>
         
       </div>
